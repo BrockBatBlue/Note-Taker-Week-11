@@ -31,6 +31,7 @@ var deleteNote = (id)=> {
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use("/assets", express.static("./public/assets"));
 
 // get api notes --- routing
 app.get("/notes", (req, res) => {

@@ -4,7 +4,7 @@ var path = require("path");
 var notes = require("./db/db.json")
 
 var app = express();
-var PORT = 8080;
+var PORT = process.env.PORT || 3001;
 
 var overWriteDb = (data)=> {
     fs.writeFile("./db/db.json", JSON.stringify(data, null, 2), (err)=> {

@@ -7,7 +7,7 @@ var app = express();
 var PORT = 8080;
 
 var overWriteDb = (data)=> {
-    fs.writeFile("./db/db.json", JSON.stringify(data), (err)=> {
+    fs.writeFile("./db/db.json", JSON.stringify(data, null, 2), (err)=> {
         if (err){
             return console.log(err);
         }
@@ -15,9 +15,18 @@ var overWriteDb = (data)=> {
     })
 }
 var deleteNote = (id)=> {
-    notes
-
-    overWriteDb(notes);
+    console.log("deleting", id);
+    var deleteIndex
+    notes.forEach((note, index)=> {
+        if (id === note.id){
+            deleteIndex = index
+        }
+    })
+    if(deleteIndex !== undefined) {
+        notes.splice(deleteIndex,1)
+        overWriteDb(notes);
+        console.log("note deleted");
+    }
 }
 
 app.use(express.urlencoded({ extended: true }));
@@ -49,6 +58,12 @@ app.post("/api/notes", (req, res)=> {
 
 // DELETE id and notes
 
+app.get("/api/notes/:id", (req, res)=>{
+    var id = parseInt(req.params.id);
+    deleteNote(id);
+    return res.json(notes);
+})
+
 
 
 
@@ -58,31 +73,3 @@ app.post("/api/notes", (req, res)=> {
 app.listen(PORT, () => {
     console.log("App listening on PORT " + PORT);
 });
-// var server = http.createServer(handleRequest);
-
-
-// function handleRequest(req, res){
-//     var path = req.url;
-//     console.log(path);
-//     switch (path){
-//         case "/notes":
-        
-//             return fs.readFile(__dirname + "/public/notes.html", function(err, data){
-//                 if(err) throw err;
-//                 res.writeHead(200, {"Content-Type": "text/html"});
-//                 res.end(data);
-//             });
-
-        
-//         default: 
-//         return fs.readFile(__dirname + "/public/index.html", function(err, data){
-//             if(err) throw err;
-//             res.writeHead(200, {"Content-Type": "text/html"});
-//             res.end(data);
-//         });
-//     }
-// }
-
-// server.listen(PORT, function(){
-//     console.log("Server listening on: http://localhost:" + PORT);
-// });

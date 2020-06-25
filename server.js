@@ -65,10 +65,6 @@ app.get("/api/notes/:id", (req, res)=>{
 })
 
 
-
-
-
-
 // Port Listening
 app.listen(PORT, () => {
     console.log("App listening on PORT " + PORT);
